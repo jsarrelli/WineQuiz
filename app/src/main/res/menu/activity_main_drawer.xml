@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+       <item android:title="Encuestas">
+           <menu>
+        <item
+            android:id="@+id/encuesta1"
+            android:icon="@drawable/bullet"
+            android:title="Encuesta 1" />
+        <item
+            android:id="@+id/encuesta2"
+            android:icon="@drawable/bullet"
+            android:title="Encuesta 2" />
+        <item
+            android:id="@+id/encuesta3"
+            android:icon="@drawable/bullet"
+            android:title="Encuesta 3" />
+           </menu>
+
+        </item>
+
+    </group>
+
+    <item android:title="Administrador">
+        <menu>
+            <item
+                android:id="@+id/listado"
+                android:icon="@drawable/bullet"
+             android:title="Listado de Encuestas" />
+         <item
+             android:id="@+id/verrealizadas"
+             android:icon="@drawable/bullet"
+                android:title="Ver encuestas Realizadas" />
+        </menu>
+    </item>
+
+</menu>
