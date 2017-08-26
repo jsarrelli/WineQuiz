@@ -1,5 +1,6 @@
 package com.example.julisarrelli.encuestasbeta.ClasesJava;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -12,7 +13,7 @@ public class Quiz {
     private String nombreEncuesta;
     private String client;
 
-    private HashMap<Integer,Question> preguntas;
+    private ArrayList<Question> preguntas;
 
 
 
@@ -20,7 +21,7 @@ public class Quiz {
     {
         this.idEncuesta=idEncuesta;
         this.nombreEncuesta=nombreEncuesta;
-        preguntas=new HashMap<Integer, Question>();
+        preguntas=new ArrayList<Question>();
     }
 
 
@@ -40,11 +41,12 @@ public class Quiz {
         this.nombreEncuesta = nombreEncuesta;
     }
 
-    public HashMap<Integer, Question> getPreguntas() {
+
+    public ArrayList<Question> getPreguntas() {
         return preguntas;
     }
 
-    public void setPreguntas(HashMap<Integer, Question> preguntas) {
+    public void setPreguntas(ArrayList<Question> preguntas) {
         this.preguntas = preguntas;
     }
 
@@ -54,5 +56,11 @@ public class Quiz {
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+
+    public void addQuestion(Question question)
+    {
+        preguntas.add(question);
     }
 }

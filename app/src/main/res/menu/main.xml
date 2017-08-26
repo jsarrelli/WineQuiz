@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_account"
+        android:title="Account"
+        android:icon="@drawable/account"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_submit"
+        android:icon="@drawable/submit"
+        android:title="Submit"
+        app:showAsAction="always" />
 </menu>

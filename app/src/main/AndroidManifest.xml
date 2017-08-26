@@ -17,14 +17,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Loggin"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewQuiz"
+            android:label="@string/title_activity_new_quiz"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListedQuiz"
+            android:label="@string/title_activity_listed_quiz"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

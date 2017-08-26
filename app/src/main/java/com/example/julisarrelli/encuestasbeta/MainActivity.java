@@ -26,10 +26,12 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.julisarrelli.encuestasbeta.Adapters.ListadoDeEncuesta;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Platform;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Question;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Quiz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     Platform platform;
 
     private TextSwitcher mSwitcher;
-    private HashMap<Integer,Question> questions;
+    private ArrayList<Question> questions;
     private Quiz quiz;
     private int position;
 
@@ -71,6 +73,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //llama al on prepare option menu
+        invalidateOptionsMenu();
+
+
 
         input=new EditText(this);
 
@@ -81,17 +87,17 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int which) {
-                     platform.setActualclient(input.getText().toString());
+                        platform.setActualclient(input.getText().toString());
                         setTitle(quiz.getNombreEncuesta()+" - "+platform.getActualclient());
                     }
                 })
-                .setView(input)
+                .setView(input);
 
-                .show();
+        //.show();
 
         position=0;
 
-       platform = Platform.getInstance();
+        platform = Platform.getInstance();
 
 
         quiz=platform.getActualQuiz();
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-         // Declare the in and out animations and initialize them
+        // Declare the in and out animations and initialize them
         Animation in = AnimationUtils.loadAnimation(this,android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(this,android.R.anim.slide_out_right);
 
@@ -139,6 +145,9 @@ public class MainActivity extends AppCompatActivity
         mSwitcher.setOutAnimation(out);
 
 
+        if(questions.size()<=1){
+            btnNext.setVisibility(View.INVISIBLE);
+        }
         btnBack.setVisibility(View.INVISIBLE);
         mSwitcher.setText(questions.get(position).getQuestion());
 
@@ -152,7 +161,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-              position++;
+                position++;
 
                 clearButtons();
                 VisibleAnswer();
@@ -199,6 +208,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 if(position<=0){
                     btnBack.setVisibility(View.INVISIBLE);
+                    btnNext.setVisibility(View.VISIBLE);
 
 
                 }
@@ -301,7 +311,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_account) {
             return true;
         }
 
@@ -320,6 +330,8 @@ public class MainActivity extends AppCompatActivity
 
             Intent intent=new Intent(MainActivity.this,MainActivity.class);
             startActivityForResult(intent,0);
+            this.finish();
+
 
 
         } else if (id == R.id.encuesta2) {
@@ -330,6 +342,8 @@ public class MainActivity extends AppCompatActivity
 
             Intent intent=new Intent(MainActivity.this,MainActivity.class);
             startActivityForResult(intent,0);
+            this.finish();
+
 
 
         } else if (id == R.id.encuesta3) {
@@ -339,10 +353,26 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(MainActivity.this,MainActivity.class);
             startActivityForResult(intent,0);
 
+            this.finish();
+
 
         }
 
-        this.finish();
+        else if(id==R.id.nuevaEncuesta)
+        {
+            Intent intent=new Intent(MainActivity.this,NewQuiz.class);
+            startActivityForResult(intent,0);
+            platform.setIsNewQuiz(true);
+        }
+
+        else if(id==R.id.listado)
+        {
+            Intent intent=new Intent(MainActivity.this,ListedQuiz.class);
+            startActivityForResult(intent,0);
+
+        }
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -366,10 +396,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.option1:
                 if(checked)
                     option2.setChecked(false);
-                    option3.setChecked(false);
-                    option4.setChecked(false);
-                    option5.setChecked(false);
-               questions.get(position).setAnswer("1");
+                option3.setChecked(false);
+                option4.setChecked(false);
+                option5.setChecked(false);
+                questions.get(position).setAnswer(option1.getText().toString());
                 break;
 
             case R.id.option2:
@@ -378,7 +408,7 @@ public class MainActivity extends AppCompatActivity
                 option1.setChecked(false);
                 option4.setChecked(false);
                 option5.setChecked(false);
-                questions.get(position).setAnswer("2");
+                questions.get(position).setAnswer(option2.getText().toString());
                 break;
 
             case R.id.option3:
@@ -387,7 +417,7 @@ public class MainActivity extends AppCompatActivity
                 option1.setChecked(false);
                 option4.setChecked(false);
                 option5.setChecked(false);
-                questions.get(position).setAnswer("3");
+                questions.get(position).setAnswer(option3.getText().toString());
                 break;
 
             case R.id.option4:
@@ -396,7 +426,7 @@ public class MainActivity extends AppCompatActivity
                 option1.setChecked(false);
                 option2.setChecked(false);
                 option5.setChecked(false);
-                questions.get(position).setAnswer("4");
+                questions.get(position).setAnswer(option4.getText().toString());
                 break;
 
             case R.id.option5:
@@ -405,8 +435,20 @@ public class MainActivity extends AppCompatActivity
                 option1.setChecked(false);
                 option4.setChecked(false);
                 option2.setChecked(false);
-                questions.get(position).setAnswer("5");
+                questions.get(position).setAnswer(option5.getText().toString());
                 break;
         }
     }
+
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        menu.findItem(R.id.action_submit).setVisible(false);
+        menu.findItem(R.id.action_account).setVisible(true);
+
+        return true;
+    }
+
+
 }

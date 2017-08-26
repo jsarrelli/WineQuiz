@@ -1,5 +1,6 @@
 package com.example.julisarrelli.encuestasbeta.ClasesJava;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -16,18 +17,22 @@ public class Platform {
     public static HashMap<Integer,Quiz> encuestas;
     public static HashMap<Integer,User> users;
 
-    public static int actualquiz;
-    public static String actualclient;
+
+    public static int actualquiz;//me dice cual el id de la encuesta que esta respondiendo
+
+    public static String actualclient;//nombre del cliente que esta respondiendo
+
     public static boolean userValidated;
     public static User loggedUser;
 
-    public static String getActualclient() {
-        return actualclient;
-    }
+    //estos tres se entran cuando creo una nueva encuenta
+    public static boolean isNewQuiz;
+    public static Quiz newQuiz;
+    public static int questionNumber;
 
-    public static void setActualclient(String actualclient) {
-        Platform.actualclient = actualclient;
-    }
+
+
+
 
     public static Platform getInstance(){
 
@@ -38,6 +43,9 @@ public class Platform {
             users=new HashMap<Integer, User>();
             actualquiz=1;
             userValidated=false;
+
+            isNewQuiz=false;
+            questionNumber=0;
 
             PreguntasRandom();
             UsariosRandom();
@@ -85,23 +93,45 @@ public class Platform {
     }
 
 
+    public static String getActualclient() {
+        return actualclient;
+    }
 
+    public static void setActualclient(String actualclient) {
+        Platform.actualclient = actualclient;
+    }
+
+    public static boolean isNewQuiz() {
+        return isNewQuiz;
+    }
+
+    public static void setIsNewQuiz(boolean isNewQuiz) {
+        Platform.isNewQuiz = isNewQuiz;
+    }
+
+    public static Quiz getNewQuiz() {
+        return newQuiz;
+    }
+
+    public static void setNewQuiz(Quiz newQuiz) {
+        Platform.newQuiz = newQuiz;
+    }
 
     public static void PreguntasRandom()
     {
         Quiz quiz=new Quiz(1,"Encuesta 1");
 
-        HashMap<Integer,Question>preguntas=new HashMap<Integer,Question>();
+        ArrayList<Question> preguntas=new ArrayList<Question>();
 
         Question pregunta1=new Question(0,"Que le parecio la atencion?");
-        preguntas.put(pregunta1.getIdQuestion(),pregunta1);
+        preguntas.add(pregunta1);
 
 
         Question pregunta2=new Question(1,"Que le parecio el sabor del vino?");
-        preguntas.put(pregunta2.getIdQuestion(),pregunta2);
+        preguntas.add(pregunta2);
 
         Question pregunta3=new Question(2,"Que le parecio la guia?");
-        preguntas.put(pregunta3.getIdQuestion(),pregunta3);
+        preguntas.add(pregunta3);
 
 
         quiz.setPreguntas(preguntas);
@@ -113,17 +143,17 @@ public class Platform {
 
         Quiz quiz2=new Quiz(2,"Encuesta 2");
 
-        HashMap<Integer,Question>preguntas2=new HashMap<Integer,Question>();
+        ArrayList<Question>preguntas2=new ArrayList<Question>();
 
         Question pregunta4=new Question(0,"Que opina de las intalaciones?");
-        preguntas2.put(pregunta1.getIdQuestion(),pregunta1);
+        preguntas2.add(pregunta1);
 
 
         Question pregunta5=new Question(1,"Como encontro las bodegas?");
-        preguntas2.put(pregunta2.getIdQuestion(),pregunta2);
+        preguntas2.add(pregunta2);
 
         Question pregunta6=new Question(2,"Le agrado el paisaje?");
-        preguntas2.put(pregunta3.getIdQuestion(),pregunta3);
+        preguntas2.add(pregunta3);
 
 
         quiz2.setPreguntas(preguntas2);
@@ -150,6 +180,34 @@ public class Platform {
         }
 
         return false;
+
+    }
+
+    public int getLastQuizId() {
+
+        Set<Integer> keys=encuestas.keySet();
+        int id=0;
+        for(Integer key:keys)
+        {
+            id=encuestas.get(key).getIdEncuesta();
+        }
+
+        return id;
+    }
+
+    public static int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public static void setQuestionNumber(int questionNumber) {
+        Platform.questionNumber = questionNumber;
+    }
+
+    public void addQuiz()
+    {
+        encuestas.put(newQuiz.getIdEncuesta(),newQuiz);
+        isNewQuiz=false;
+        questionNumber=0;
 
     }
 }
