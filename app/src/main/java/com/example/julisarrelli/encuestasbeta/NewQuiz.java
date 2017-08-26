@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,17 +82,20 @@ public class NewQuiz extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
                 if(validarCampos()){
                     cargarPregunta();
                     platform.setQuestionNumber(platform.getQuestionNumber()+1);
+
+                    Intent intent=new Intent(NewQuiz.this,NewQuiz.class);
+                    startActivityForResult(intent,0);
+
+                    finish();
                 }
 
 
-                Intent intent=new Intent(NewQuiz.this,NewQuiz.class);
-                startActivityForResult(intent,0);
 
-                finish();
+
+
 
 
             }
@@ -110,6 +114,8 @@ public class NewQuiz extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         quiz = new Quiz(platform.getLastQuizId() + 1, input.getText().toString());
+
+
                         setTitle("Encuesta: " + quiz.getNombreEncuesta());
 
                         platform.setNewQuiz(quiz);
@@ -185,8 +191,9 @@ public class NewQuiz extends AppCompatActivity {
                             if(validarCampos()) {
                                 cargarPregunta();
                                 platform.addQuiz();
+                                finish();
                             }
-                            finish();
+
                         }
                     })
                     .setNegativeButton("Cancelar", null)
