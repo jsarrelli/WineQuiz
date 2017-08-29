@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,6 +34,7 @@ import com.example.julisarrelli.encuestasbeta.ClasesJava.Quiz;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Question> questions;
     private Quiz quiz;
     private int position;
+    NavigationView navigationView;
 
 
     @Override
@@ -70,8 +73,11 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
 
         //llama al on prepare option menu
         invalidateOptionsMenu();
@@ -104,6 +110,8 @@ public class MainActivity extends AppCompatActivity
 
 
         questions=quiz.getPreguntas();
+        loadItemsNavDrawer();
+
 
 
         option1= (RadioButton) findViewById(R.id.option1);
@@ -227,6 +235,27 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void loadItemsNavDrawer() {
+
+
+
+        Menu menu = navigationView.getMenu();
+
+        Menu submenu = menu.addSubMenu("Encuestas");
+
+
+        HashMap<Integer,Quiz> encuestas=platform.getEncuestas();
+
+        Set<Integer> keys=encuestas.keySet();
+        for(Integer key:keys)
+        {
+            submenu.add(Menu.NONE,encuestas.get(key).getIdEncuesta(), 0, encuestas.get(key).getNombreEncuesta()).setIcon(R.drawable.bullet);
+        }
+
+
+    }
+
+
     private void clearButtons() {
 
 
@@ -300,6 +329,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
+        menu.findItem(R.id.action_submit).setVisible(false);
+        menu.findItem(R.id.action_account).setVisible(true);
+
         return true;
     }
 
@@ -324,53 +358,44 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.encuesta1) {
-
-            platform.setActualquiz(1);
-
-            Intent intent=new Intent(MainActivity.this,MainActivity.class);
-            startActivityForResult(intent,0);
-            this.finish();
+        Intent intent;
 
 
 
-        } else if (id == R.id.encuesta2) {
+        if(id==R.id.nuevaEncuesta) {
 
-            platform.setActualquiz(2);
-
-
-
-            Intent intent=new Intent(MainActivity.this,MainActivity.class);
-            startActivityForResult(intent,0);
-            this.finish();
-
-
-
-        } else if (id == R.id.encuesta3) {
-
-            platform.setActualquiz(3);
-
-            Intent intent=new Intent(MainActivity.this,MainActivity.class);
-            startActivityForResult(intent,0);
-
-            this.finish();
-
-
-        }
-
-        else if(id==R.id.nuevaEncuesta)
-        {
-            Intent intent=new Intent(MainActivity.this,NewQuiz.class);
-            startActivityForResult(intent,0);
+            intent = new Intent(MainActivity.this, NewQuiz.class);
+            startActivityForResult(intent, 0);
             platform.setIsNewQuiz(true);
         }
 
-        else if(id==R.id.listado)
+                   else if(id==R.id.listado)
         {
-            Intent intent=new Intent(MainActivity.this,ListedQuiz.class);
+            intent=new Intent(MainActivity.this,ListedQuiz.class);
             startActivityForResult(intent,0);
 
+
         }
+
+
+        else {
+            try {
+                platform.setActualquiz(id);
+
+                intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivityForResult(intent, 0);
+
+
+            } catch (Exception e) {
+            }
+        }
+
+
+
+
+
+
+        this.finish();
 
 
 
@@ -444,8 +469,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        menu.findItem(R.id.action_submit).setVisible(false);
-        menu.findItem(R.id.action_account).setVisible(true);
+
 
         return true;
     }

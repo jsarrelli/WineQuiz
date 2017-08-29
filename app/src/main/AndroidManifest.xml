@@ -29,7 +29,8 @@
         <activity
             android:name=".ListedQuiz"
             android:label="@string/title_activity_listed_quiz"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".QuizView"></activity>
     </application>
 
 </manifest>

@@ -74,6 +74,8 @@ public class NewQuiz extends AppCompatActivity {
 
         }
 
+        setTitle("Encuesta: " + quiz.getNombreEncuesta());
+
 
 
         btnNext=(Button) findViewById(R.id.newquestion) ;
@@ -84,7 +86,9 @@ public class NewQuiz extends AppCompatActivity {
 
                 if(validarCampos()){
                     cargarPregunta();
+
                     platform.setQuestionNumber(platform.getQuestionNumber()+1);
+                    platform.setIsNewQuiz(false);
 
                     Intent intent=new Intent(NewQuiz.this,NewQuiz.class);
                     startActivityForResult(intent,0);
@@ -113,10 +117,10 @@ public class NewQuiz extends AppCompatActivity {
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        quiz = new Quiz(platform.getLastQuizId() + 1, input.getText().toString());
+                        quiz = new Quiz((platform.getLastQuizId() + 1), input.getText().toString());
+                        Log.v("quiz", String.valueOf(quiz.getIdEncuesta()));
 
 
-                        setTitle("Encuesta: " + quiz.getNombreEncuesta());
 
                         platform.setNewQuiz(quiz);
                         platform.setIsNewQuiz(false);
@@ -163,6 +167,7 @@ public class NewQuiz extends AppCompatActivity {
         platform.getNewQuiz().addQuestion(question);
 
 
+
     }
 
 
@@ -191,6 +196,8 @@ public class NewQuiz extends AppCompatActivity {
                             if(validarCampos()) {
                                 cargarPregunta();
                                 platform.addQuiz();
+                                Intent intent = new Intent(NewQuiz.this, MainActivity.class);
+                                startActivityForResult(intent, 0);
                                 finish();
                             }
 
@@ -206,7 +213,9 @@ public class NewQuiz extends AppCompatActivity {
         if(id==android.R.id.home)
         {
             platform.setQuestionNumber(0);
-            platform.setIsNewQuiz(false);
+            platform.setIsNewQuiz(true);
+            Intent intent = new Intent(NewQuiz.this, MainActivity.class);
+            startActivityForResult(intent, 0);
             finish();
             return true;
         }

@@ -1,5 +1,7 @@
 package com.example.julisarrelli.encuestasbeta.ClasesJava;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -30,6 +32,8 @@ public class Platform {
     public static Quiz newQuiz;
     public static int questionNumber;
 
+    public static int idSelectedQuizView;
+
 
 
 
@@ -44,7 +48,7 @@ public class Platform {
             actualquiz=1;
             userValidated=false;
 
-            isNewQuiz=false;
+            isNewQuiz=true;
             questionNumber=0;
 
             PreguntasRandom();
@@ -53,6 +57,14 @@ public class Platform {
         return instance;
 
 
+    }
+
+    public static int getIdSelectedQuizView() {
+        return idSelectedQuizView;
+    }
+
+    public static void setIdSelectedQuizView(int idSelectedQuizView) {
+        Platform.idSelectedQuizView = idSelectedQuizView;
     }
 
     private static void UsariosRandom() {
@@ -146,19 +158,26 @@ public class Platform {
         ArrayList<Question>preguntas2=new ArrayList<Question>();
 
         Question pregunta4=new Question(0,"Que opina de las intalaciones?");
-        preguntas2.add(pregunta1);
+        pregunta4.addOption("casa");
+        pregunta4.addOption("auto");
+        pregunta4.addOption("mesa");
+
+        preguntas2.add(pregunta4);
 
 
         Question pregunta5=new Question(1,"Como encontro las bodegas?");
-        preguntas2.add(pregunta2);
+        preguntas2.add(pregunta5);
 
         Question pregunta6=new Question(2,"Le agrado el paisaje?");
-        preguntas2.add(pregunta3);
+
+        preguntas2.add(pregunta6);
 
 
         quiz2.setPreguntas(preguntas2);
 
         encuestas.put(2,quiz2);
+
+
 
 
     }
@@ -186,13 +205,16 @@ public class Platform {
     public int getLastQuizId() {
 
         Set<Integer> keys=encuestas.keySet();
-        int id=0;
+        int mayor=encuestas.get(1).getIdEncuesta();
         for(Integer key:keys)
         {
-            id=encuestas.get(key).getIdEncuesta();
+            if(encuestas.get(key).getIdEncuesta()>=mayor) {
+                mayor = encuestas.get(key).getIdEncuesta();
+            }
         }
 
-        return id;
+
+        return mayor;
     }
 
     public static int getQuestionNumber() {
@@ -205,8 +227,11 @@ public class Platform {
 
     public void addQuiz()
     {
+
         encuestas.put(newQuiz.getIdEncuesta(),newQuiz);
-        isNewQuiz=false;
+        Log.v("id", encuestas.get(newQuiz.getIdEncuesta()).getNombreEncuesta());
+
+        isNewQuiz=true;
         questionNumber=0;
 
     }

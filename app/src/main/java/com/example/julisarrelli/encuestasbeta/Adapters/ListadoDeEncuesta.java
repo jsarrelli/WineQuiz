@@ -21,10 +21,12 @@ public class ListadoDeEncuesta extends BaseAdapter {
     // Declare Variables
     Context context;
     ArrayList<String>nombres;
+    ArrayList<Integer>ids;
     LayoutInflater inflater;
 
-    public ListadoDeEncuesta(Context context, ArrayList<String > nombres) {
+    public ListadoDeEncuesta(Context context, ArrayList<String > nombres,ArrayList<Integer>ids) {
         this.context = context;
+        this.ids=ids;
         this.nombres=nombres;
     }
 
@@ -34,8 +36,9 @@ public class ListadoDeEncuesta extends BaseAdapter {
     }
 
     @Override
+    //devuelve el id de la encuesta
     public Object getItem(int position) {
-        return null;
+        return ids.get(position);
     }
 
     @Override
