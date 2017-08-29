@@ -1,6 +1,9 @@
 package com.example.julisarrelli.encuestasbeta.ClasesJava;
 
+import android.graphics.Path;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by julisarrelli on 8/24/17.
@@ -11,12 +14,12 @@ public class Question {
     private int idQuestion;
     private String question;
     private String answer;
-    private ArrayList<String> options;
+    private ArrayList<Option> options;
 
     public Question(int idQuestion, String question) {
         this.idQuestion = idQuestion;
         this.question = question;
-        options=new ArrayList<String>();
+        options=new ArrayList<Option>();
 
     }
 
@@ -45,17 +48,17 @@ public class Question {
         this.answer = answer;
     }
 
-    public void addOption(String option)
+    public void addOption(Option option)
     {
         options.add(option);
     }
 
 
-    public ArrayList<String> getOptions() {
+    public ArrayList<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(ArrayList<String> options) {
+    public void setOptions(ArrayList<Option> options) {
         this.options = options;
     }
 }

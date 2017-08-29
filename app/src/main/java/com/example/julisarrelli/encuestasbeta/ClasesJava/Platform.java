@@ -136,13 +136,32 @@ public class Platform {
         ArrayList<Question> preguntas=new ArrayList<Question>();
 
         Question pregunta1=new Question(0,"Que le parecio la atencion?");
+
+        pregunta1.addOption(new Option(0,"Mala"));
+        pregunta1.addOption(new Option(1,"Buena"));
+        pregunta1.addOption(new Option(2,"Muy Buena"));
+        pregunta1.addOption(new Option(3,"Excelente"));
+
         preguntas.add(pregunta1);
 
 
         Question pregunta2=new Question(1,"Que le parecio el sabor del vino?");
+
+        pregunta2.addOption(new Option(0,"Dulce"));
+        pregunta2.addOption(new Option(1,"Amargo"));
+        pregunta2.addOption(new Option(2,"Fuerte"));
+        pregunta2.addOption(new Option(3,"Suave"));
         preguntas.add(pregunta2);
 
         Question pregunta3=new Question(2,"Que le parecio la guia?");
+        pregunta3.addOption(new Option(0,"Amable"));
+        pregunta3.addOption(new Option(1,"Gracioso"));
+        pregunta3.addOption(new Option(2,"Molesto"));
+        pregunta3.addOption(new Option(3,"Timido"));
+        pregunta3.addOption(new Option(4,"Lindo"));
+        pregunta3.addOption(new Option(5,"Feo"));
+        pregunta3.addOption(new Option(6,"Mal Educado"));
+
         preguntas.add(pregunta3);
 
 
@@ -158,9 +177,7 @@ public class Platform {
         ArrayList<Question>preguntas2=new ArrayList<Question>();
 
         Question pregunta4=new Question(0,"Que opina de las intalaciones?");
-        pregunta4.addOption("casa");
-        pregunta4.addOption("auto");
-        pregunta4.addOption("mesa");
+
 
         preguntas2.add(pregunta4);
 

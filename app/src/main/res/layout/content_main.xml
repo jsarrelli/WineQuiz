@@ -12,6 +12,70 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="300dp"
+            android:id="@+id/relativeLayout">
+
+                <ImageButton
+                    android:id="@+id/back"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="64dp"
+                    android:layout_weight="1"
+                    android:layout_x="312dp"
+                    android:layout_y="10dp"
+                    android:background="@drawable/leftarrow"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_x="312dp"
+                    android:layout_y="10dp"
+                    android:background="@drawable/rightarrow"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_alignTop="@+id/back"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="90dp"
+                    android:layout_toLeftOf="@+id/next"
+                    android:layout_toRightOf="@+id/back"
+                    android:layout_toStartOf="@+id/next">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:weightSum="1"
+                            tools:layout_width="200dp">
+
+                                <RadioGroup
+                                    android:id="@+id/radiogroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/relativeLayout"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_weight="0.01">
+
+                                </RadioGroup>
+                        </LinearLayout>
+                </ScrollView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="245dp"
             android:layout_marginRight="0dp"
@@ -55,119 +119,79 @@
 
         </RelativeLayout>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="33dp"
+        <!--
 
-            android:layout_marginLeft="79dp"
-            android:layout_marginStart="79dp"
-            android:id="@+id/radioGroup">
+            <RadioButton
+                android:id="@+id/option5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="5"
+                android:textColor="@android:color/background_light"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
 
-        </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/option5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"
-            android:text="5"
-            android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
 
-        <RadioButton
-            android:id="@+id/option2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"
-            android:text="2"
-            android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_above="@+id/option3"
-            android:layout_alignLeft="@+id/option3"
-            android:layout_alignStart="@+id/option3" />
+            <RadioButton
+                android:id="@+id/option2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="2"
+                android:textColor="@android:color/background_light"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_above="@+id/option3"
+                android:layout_alignLeft="@+id/option3"
+                android:layout_alignStart="@+id/option3" />
 
-        <RadioButton
-            android:id="@+id/option3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"
-            android:text="3"
-            android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_above="@+id/option4"
-            android:layout_alignLeft="@+id/option4"
-            android:layout_alignStart="@+id/option4" />
+            <RadioButton
+                android:id="@+id/option3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="3"
+                android:textColor="@android:color/background_light"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_above="@+id/option4"
+                android:layout_alignLeft="@+id/option4"
+                android:layout_alignStart="@+id/option4" />
 
-        <RadioButton
-            android:id="@+id/option4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"
-            android:text="4"
-            android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_above="@+id/option5"
-            android:layout_alignLeft="@+id/option5"
-            android:layout_alignStart="@+id/option5" />
+            <RadioButton
+                android:id="@+id/option4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="4"
+                android:textColor="@android:color/background_light"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_above="@+id/option5"
+                android:layout_alignLeft="@+id/option5"
+                android:layout_alignStart="@+id/option5" />
 
-        <RadioButton
-            android:id="@+id/option1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"
-            android:text="1"
-            android:textColor="@android:color/background_light"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_above="@+id/option2"
-            android:layout_alignLeft="@+id/option2"
-            android:layout_alignStart="@+id/option2" />
-
-        <ImageButton
-            android:id="@+id/next"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_x="312dp"
-            android:layout_y="10dp"
-            android:background="@drawable/rightarrow"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:layout_above="@+id/option4"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" />
-
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_x="312dp"
-            android:layout_y="10dp"
-            android:background="@drawable/leftarrow"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:layout_above="@+id/option4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="11dp"
-            android:layout_marginStart="11dp" />
+            <RadioButton
+                android:id="@+id/option1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="1"
+                android:textColor="@android:color/background_light"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_above="@+id/option2"
+                android:layout_alignLeft="@+id/option2"
+                android:layout_alignStart="@+id/option2" />
+                -->
 
 
 </RelativeLayout>

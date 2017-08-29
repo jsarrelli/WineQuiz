@@ -2,6 +2,7 @@ package com.example.julisarrelli.encuestasbeta;
 
 import android.app.ActionBar;
 
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.julisarrelli.encuestasbeta.Adapters.VistaEncuesta;
+import com.example.julisarrelli.encuestasbeta.ClasesJava.Option;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Platform;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Question;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Quiz;
@@ -80,10 +82,10 @@ public class QuizView extends AppCompatActivity {
                     textosPreguntas.add(pregunta.getQuestion());
 
                     String opcionesDePregunta="";
-                    for(String opcion:pregunta.getOptions())
+                    for(Option opcion:pregunta.getOptions())
                     {
 
-                        opcionesDePregunta+="-"+opcion+"\n";
+                        opcionesDePregunta+="-"+opcion.getOption()+"\n";
                     }
 
 

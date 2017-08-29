@@ -3,6 +3,7 @@ package com.example.julisarrelli.encuestasbeta;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.design.widget.NavigationView;
@@ -15,19 +16,19 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.example.julisarrelli.encuestasbeta.Adapters.ListadoDeEncuesta;
+import com.example.julisarrelli.encuestasbeta.ClasesJava.Option;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Platform;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Question;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Quiz;
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity
     RadioButton option3;
     RadioButton option4;
     RadioButton option5;
-    RadioGroup radioGroup;
     ImageButton btnNext;
     ImageButton btnBack;
+    RadioGroup mRadioGroup;
     EditText input;
 
     Platform platform;
@@ -84,6 +85,20 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+        position=0;
+
+        platform = Platform.getInstance();
+
+
+        quiz=platform.getActualQuiz();
+        questions=quiz.getPreguntas();
+
+
+
+
+        loadItemsNavDrawer();
+
         input=new EditText(this);
 
         new AlertDialog.Builder(this)
@@ -97,31 +112,21 @@ public class MainActivity extends AppCompatActivity
                         setTitle(quiz.getNombreEncuesta()+" - "+platform.getActualclient());
                     }
                 })
-                .setView(input);
+                .setView(input)
 
-        //.show();
+                .show();
 
-        position=0;
-
-        platform = Platform.getInstance();
+            loadOptions();
 
 
-        quiz=platform.getActualQuiz();
-
-
-        questions=quiz.getPreguntas();
-        loadItemsNavDrawer();
-
-
-
-        option1= (RadioButton) findViewById(R.id.option1);
-        option2= (RadioButton) findViewById(R.id.option2);
-        option3= (RadioButton) findViewById(R.id.option3);
-        option4= (RadioButton) findViewById(R.id.option4);
-        option5= (RadioButton) findViewById(R.id.option5);
-
-
-        radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
+//        option1= (RadioButton) findViewById(R.id.option1);
+//        option2= (RadioButton) findViewById(R.id.option2);
+//        option3= (RadioButton) findViewById(R.id.option3);
+//        option4= (RadioButton) findViewById(R.id.option4);
+//        option5= (RadioButton) findViewById(R.id.option5);
+//
+//
+//        //radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
         btnNext=(ImageButton)findViewById(R.id.next);
         btnBack=(ImageButton)findViewById(R.id.back);
 
@@ -167,11 +172,12 @@ public class MainActivity extends AppCompatActivity
 
                 Log.v("position: ", String.valueOf(position));
 
-
+                mRadioGroup.removeAllViews();
 
                 position++;
+                loadOptions();
 
-                clearButtons();
+
                 VisibleAnswer();
                 btnBack.setVisibility(View.VISIBLE);
 
@@ -206,11 +212,14 @@ public class MainActivity extends AppCompatActivity
 
                 Log.v("position: ", String.valueOf(position));
 
-                clearButtons();
+                mRadioGroup.removeAllViews();
+
+
 
 
                 if(position!=0) {
                     position--;
+                    loadOptions();
                     VisibleAnswer();
                     mSwitcher.setText(questions.get(position).getQuestion());
                 }
@@ -232,7 +241,47 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+                RadioGroup rg = (RadioGroup) findViewById(R.id.radiogroup);
 
+                String selectedOption = ((RadioButton)findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+                questions.get(position).setAnswer(selectedOption);
+                Log.v("option",selectedOption);
+            }
+        });
+
+
+    }
+
+    private void loadOptions() {
+
+        mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
+
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+
+        ArrayList<Option> opciones=questions.get(position).getOptions();
+
+
+        for(Option opcion:opciones) {
+
+            RadioButton newRadioButton = new RadioButton(this);
+            newRadioButton.setId(opcion.getIdOption());
+            newRadioButton.setText(opcion.getOption());
+            newRadioButton.setTextSize(25);
+            newRadioButton.setTextColor(getResources().getColor(R.color.white));
+
+
+            mRadioGroup.addView(newRadioButton, 0, layoutParams);
+
+
+
+        }
     }
 
     private void loadItemsNavDrawer() {
@@ -256,42 +305,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void clearButtons() {
-
-
-        option1.setChecked(false);
-        option2.setChecked(false);
-        option3.setChecked(false);
-        option4.setChecked(false);
-        option5.setChecked(false);
-    }
-
     private void VisibleAnswer() {
 
 
         try{
-            switch (questions.get(position).getAnswer()){
-
-                case "1":
-                    option1.setChecked(true);
-                    break;
-
-                case "2":
-                    option2.setChecked(true);
-                    break;
-
-                case "3":
-                    option3.setChecked(true);
-                    break;
-
-                case "4":
-                    option4.setChecked(true);
-                    break;
-
-                case "5":
-                    option5.setChecked(true);
-                    break;
-            }
+        // RadioButton rb=(RadioButton) findViewById(questions.get(position).);
 
 
         }
@@ -405,65 +423,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-    public void onRadioButtonClicked(View v)
-    {
-
-
-
-        //is the current radio button now checked?
-        boolean  checked = ((RadioButton) v).isChecked();
-
-        //now check which radio button is selected
-        //android switch statement
-        switch(v.getId()){
-
-            case R.id.option1:
-                if(checked)
-                    option2.setChecked(false);
-                option3.setChecked(false);
-                option4.setChecked(false);
-                option5.setChecked(false);
-                questions.get(position).setAnswer(option1.getText().toString());
-                break;
-
-            case R.id.option2:
-                if(checked)
-                    option3.setChecked(false);
-                option1.setChecked(false);
-                option4.setChecked(false);
-                option5.setChecked(false);
-                questions.get(position).setAnswer(option2.getText().toString());
-                break;
-
-            case R.id.option3:
-                if(checked)
-                    option2.setChecked(false);
-                option1.setChecked(false);
-                option4.setChecked(false);
-                option5.setChecked(false);
-                questions.get(position).setAnswer(option3.getText().toString());
-                break;
-
-            case R.id.option4:
-                if(checked)
-                    option3.setChecked(false);
-                option1.setChecked(false);
-                option2.setChecked(false);
-                option5.setChecked(false);
-                questions.get(position).setAnswer(option4.getText().toString());
-                break;
-
-            case R.id.option5:
-                if(checked)
-                    option3.setChecked(false);
-                option1.setChecked(false);
-                option4.setChecked(false);
-                option2.setChecked(false);
-                questions.get(position).setAnswer(option5.getText().toString());
-                break;
-        }
-    }
 
 
     public boolean onPrepareOptionsMenu(Menu menu) {

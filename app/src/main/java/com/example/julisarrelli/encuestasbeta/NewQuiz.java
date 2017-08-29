@@ -3,6 +3,7 @@ package com.example.julisarrelli.encuestasbeta;
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.julisarrelli.encuestasbeta.ClasesJava.Option;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Platform;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Question;
 import com.example.julisarrelli.encuestasbeta.ClasesJava.Quiz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,6 +38,25 @@ public class NewQuiz extends AppCompatActivity {
     @InjectView(R.id.text3) EditText text3;
     @InjectView(R.id.text4) EditText text4;
     @InjectView(R.id.text5) EditText text5;
+    @InjectView(R.id.text6) EditText text6;
+    @InjectView(R.id.text7) EditText text7;
+    @InjectView(R.id.text8) EditText text8;
+    @InjectView(R.id.text9) EditText text9;
+    @InjectView(R.id.text10) EditText text10;
+    @InjectView(R.id.text11) EditText text11;
+    @InjectView(R.id.text12) EditText text12;
+    @InjectView(R.id.text13) EditText text13;
+    @InjectView(R.id.text14) EditText text14;
+    @InjectView(R.id.text15) EditText text15;
+    @InjectView(R.id.text16) EditText text16;
+    @InjectView(R.id.text17) EditText text17;
+    @InjectView(R.id.text18) EditText text18;
+    @InjectView(R.id.text19) EditText text19;
+    @InjectView(R.id.text20) EditText text20;
+    
+    ArrayList<String> optionsTexts;
+    ArrayList<View> options;
+
 
 
     EditText input;
@@ -60,6 +82,8 @@ public class NewQuiz extends AppCompatActivity {
         ButterKnife.inject(this);
         input = new EditText(this);
 
+        loadOptions();
+
         questionhint=(EditText) findViewById(R.id.NameText);
         questionhint.setHint("Ingrese la pregunta numero N"+(platform.getQuestionNumber()+1));
 
@@ -74,7 +98,15 @@ public class NewQuiz extends AppCompatActivity {
 
         }
 
-        setTitle("Encuesta: " + quiz.getNombreEncuesta());
+
+            try{
+                setTitle("Encuesta: " + platform.getNewQuiz().getNombreEncuesta());
+
+            }
+            catch (Exception e){};
+
+
+
 
 
 
@@ -118,7 +150,7 @@ public class NewQuiz extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         quiz = new Quiz((platform.getLastQuizId() + 1), input.getText().toString());
-                        Log.v("quiz", String.valueOf(quiz.getIdEncuesta()));
+                        setTitle("Encuesta: " + quiz.getNombreEncuesta());
 
 
 
@@ -150,21 +182,41 @@ public class NewQuiz extends AppCompatActivity {
 
     private void cargarPregunta() {
 
+        if(textquestion.getText().toString().isEmpty()){
 
-        Question question=new Question(platform.getQuestionNumber(),textquestion.getText().toString());
+            textquestion.requestFocus();
+            textquestion.setError("Ingrese una pregunta");
 
-        ArrayList<String> options=new ArrayList<String >();
-        options.add(text1.getText().toString());
-        options.add(text2.getText().toString());
+        }
+        else {
+            if (text1.getText().toString().isEmpty() || text2.getText().toString().isEmpty()) {
 
-        if(!text3.getText().toString().isEmpty())options.add(text3.getText().toString());
+                Toast.makeText(getBaseContext(), "Ingrese al menos dos preguntas", Toast.LENGTH_SHORT).show();
 
-        if(!text4.getText().toString().isEmpty())options.add(text4.getText().toString());
+            } else {
 
-        if(!text5.getText().toString().isEmpty())options.add(text5.getText().toString());
+                Question question = new Question(platform.getQuestionNumber(), textquestion.getText().toString());
 
-        question.setOptions(options);
-        platform.getNewQuiz().addQuestion(question);
+
+                ArrayList<Option> optionsToQuestion = new ArrayList<Option>();
+
+                loadoptionsTexts();
+
+
+                for (int i = 0; i < 20; i++) {
+                    //si la pregunta no esta vacia se agrega al array
+                    if (!optionsTexts.get(i).isEmpty()) {
+                        //questionsToDatabase.add(questionsTexts.get(i));
+                        optionsToQuestion.add( new Option(i, optionsTexts.get(i)));
+                    }
+
+                }
+
+
+                question.setOptions(optionsToQuestion);
+                platform.getNewQuiz().addQuestion(question);
+            }
+        }
 
 
 
@@ -237,6 +289,59 @@ public class NewQuiz extends AppCompatActivity {
 
 
         return true;
+    }
+
+    private void loadoptionsTexts() {
+
+        optionsTexts=new ArrayList<String>();
+
+        optionsTexts.add(text1.getText().toString());
+        optionsTexts.add(text2.getText().toString());
+        optionsTexts.add(text3.getText().toString());
+        optionsTexts.add(text4.getText().toString());
+        optionsTexts.add(text5.getText().toString());
+        optionsTexts.add(text6.getText().toString());
+        optionsTexts.add(text7.getText().toString());
+        optionsTexts.add(text8.getText().toString());
+        optionsTexts.add(text9.getText().toString());
+        optionsTexts.add(text10.getText().toString());
+        optionsTexts.add(text11.getText().toString());
+        optionsTexts.add(text12.getText().toString());
+        optionsTexts.add(text13.getText().toString());
+        optionsTexts.add(text14.getText().toString());
+        optionsTexts.add(text15.getText().toString());
+        optionsTexts.add(text16.getText().toString());
+        optionsTexts.add(text17.getText().toString());
+        optionsTexts.add(text18.getText().toString());
+        optionsTexts.add(text19.getText().toString());
+        optionsTexts.add(text20.getText().toString());
+    }
+
+    private void loadOptions() {
+
+        options=new ArrayList<View>();
+
+        options.add(findViewById(R.id.option1));
+        options.add(findViewById(R.id.option2));
+        options.add(findViewById(R.id.option3));
+        options.add(findViewById(R.id.option4));
+        options.add(findViewById(R.id.option5));
+        options.add(findViewById(R.id.option6));
+        options.add(findViewById(R.id.option7));
+        options.add(findViewById(R.id.option8));
+        options.add(findViewById(R.id.option9));
+        options.add(findViewById(R.id.option10));
+        options.add(findViewById(R.id.option11));
+        options.add(findViewById(R.id.option12));
+        options.add(findViewById(R.id.option13));
+        options.add(findViewById(R.id.option14));
+        options.add(findViewById(R.id.option15));
+        options.add(findViewById(R.id.option16));
+        options.add(findViewById(R.id.option17));
+        options.add(findViewById(R.id.option18));
+        options.add(findViewById(R.id.option19));
+        options.add(findViewById(R.id.option20));
+
     }
 
 }
